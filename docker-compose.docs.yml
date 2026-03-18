@@ -1,0 +1,17 @@
+services:
+  docs:
+    image: bet_app_local_docs
+    container_name: bet_app_local_docs
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - /app/.venv
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./bet_app:/app/bet_app:z
+    ports:
+      - '9000:9000'
+    command: /start-docs
