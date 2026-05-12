@@ -7,7 +7,7 @@ from django.views.generic import DetailView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):

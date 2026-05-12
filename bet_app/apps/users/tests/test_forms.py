@@ -2,8 +2,8 @@
 
 from django.utils.translation import gettext_lazy as _
 
-from bet_app.users.forms import UserAdminCreationForm
-from bet_app.users.models import User
+from bet_app.apps.users.forms import UserAdminCreationForm
+from bet_app.apps.users.models import User
 
 
 class TestUserAdminCreationForm:
@@ -32,4 +32,5 @@ class TestUserAdminCreationForm:
         assert not form.is_valid()
         assert len(form.errors) == 1
         assert "username" in form.errors
-        assert form.errors["username"][0] == _("This username has already been taken.")
+        assert form.errors["username"][0] == _(
+            "This username has already been taken.")

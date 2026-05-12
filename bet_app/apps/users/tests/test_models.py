@@ -1,4 +1,4 @@
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 def test_user_get_absolute_url(user: User):

@@ -1,7 +1,7 @@
 from django.urls import reverse
 from ninja import ModelSchema
 
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 class UpdateUserSchema(ModelSchema):

@@ -4,7 +4,7 @@ import django.utils.timezone
 from django.db import migrations
 from django.db import models
 
-import bet_app.users.models
+import bet_app.apps.users.models
 
 
 class Migration(migrations.Migration):
@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                ("password", models.CharField(
+                    max_length=128, verbose_name="password")),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -42,7 +43,7 @@ class Migration(migrations.Migration):
                         help_text="Designates that this user has all permissions without explicitly assigning them.",
                         verbose_name="superuser status",
                     ),
-                ),(
+                ), (
                     "username",
                     models.CharField(
                         error_messages={

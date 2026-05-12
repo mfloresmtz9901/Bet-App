@@ -8,4 +8,4 @@ api = NinjaAPI(
     docs_decorator=staff_member_required,
 )
 
-api.add_router("/users/", "bet_app.users.api.views.router")
+api.add_router("/users/", "bet_app.apps.users.api.views.router")

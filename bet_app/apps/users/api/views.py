@@ -2,9 +2,9 @@ from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from ninja import Router
 
-from bet_app.users.api.schema import UpdateUserSchema
-from bet_app.users.api.schema import UserSchema
-from bet_app.users.models import User
+from bet_app.apps.users.api.schema import UpdateUserSchema
+from bet_app.apps.users.api.schema import UserSchema
+from bet_app.apps.users.models import User
 
 router = Router(tags=["users"])
 

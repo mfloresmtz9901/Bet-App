@@ -1,7 +1,7 @@
 from django.urls import resolve
 from django.urls import reverse
 
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 def test_detail(user: User):

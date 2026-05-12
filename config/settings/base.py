@@ -82,7 +82,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "bet_app.users",
+    "bet_app.apps.users",
+    "bet_app.apps.matches",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -186,7 +187,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "bet_app.users.context_processors.allauth_settings",
+                "bet_app.apps.users.context_processors.allauth_settings",
             ],
         },
     },
@@ -233,7 +234,8 @@ ADMINS = ['"Moises Flores" <mfloresmtz9901@gmail.com>']
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
 # Force the `admin` sign in process to go through the `django-allauth` workflow
-DJANGO_ADMIN_FORCE_ALLAUTH = env.bool("DJANGO_ADMIN_FORCE_ALLAUTH", default=False)
+DJANGO_ADMIN_FORCE_ALLAUTH = env.bool(
+    "DJANGO_ADMIN_FORCE_ALLAUTH", default=False)
 
 # LOGGING
 # ------------------------------------------------------------------------------
@@ -303,7 +305,8 @@ CELERY_TASK_SEND_SENT_EVENT = True
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 # django-allauth
 # ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
+ACCOUNT_ALLOW_REGISTRATION = env.bool(
+    "DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_LOGIN_METHODS = {"username"}
 # https://docs.allauth.org/en/latest/account/configuration.html
@@ -311,13 +314,14 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # https://docs.allauth.org/en/latest/account/configuration.html
-ACCOUNT_ADAPTER = "bet_app.users.adapters.AccountAdapter"
+ACCOUNT_ADAPTER = "bet_app.apps.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
-ACCOUNT_FORMS = {"signup": "bet_app.users.forms.UserSignupForm"}
+ACCOUNT_FORMS = {"signup": "bet_app.apps.users.forms.UserSignupForm"}
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_ADAPTER = "bet_app.users.adapters.SocialAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "bet_app.apps.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
-SOCIALACCOUNT_FORMS = {"signup": "bet_app.users.forms.UserSocialSignupForm"}
+SOCIALACCOUNT_FORMS = {
+    "signup": "bet_app.apps.users.forms.UserSocialSignupForm"}
 
 
 # Your stuff...

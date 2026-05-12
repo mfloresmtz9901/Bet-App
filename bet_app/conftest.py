@@ -1,7 +1,7 @@
 import pytest
 
-from bet_app.users.models import User
-from bet_app.users.tests.factories import UserFactory
+from bet_app.apps.users.models import User
+from bet_app.apps.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

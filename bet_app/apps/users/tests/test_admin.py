@@ -8,7 +8,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
 
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 class TestUserAdmin:
@@ -48,9 +48,10 @@ class TestUserAdmin:
     def _force_allauth(self, settings):
         settings.DJANGO_ADMIN_FORCE_ALLAUTH = True
         # Reload the admin module to apply the setting change
-        import bet_app.users.admin as users_admin  # noqa: PLC0415
+        import bet_app.apps.users.admin as users_admin  # noqa: PLC0415
 
-        with contextlib.suppress(admin.sites.AlreadyRegistered):  # type: ignore[attr-defined]
+        # type: ignore[attr-defined]
+        with contextlib.suppress(admin.sites.AlreadyRegistered):
             reload(users_admin)
 
     @pytest.mark.django_db

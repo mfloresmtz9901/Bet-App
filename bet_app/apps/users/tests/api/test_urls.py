@@ -1,7 +1,7 @@
 from django.urls import resolve
 from django.urls import reverse
 
-from bet_app.users.models import User
+from bet_app.apps.users.models import User
 
 
 def test_user_detail(user: User):
@@ -9,7 +9,8 @@ def test_user_detail(user: User):
         reverse("api:retrieve_user", kwargs={"username": user.username})
         == f"/api/users/{user.username}/"
     )
-    assert resolve(f"/api/users/{user.username}/").view_name == "api:retrieve_user"
+    assert resolve(
+        f"/api/users/{user.username}/").view_name == "api:retrieve_user"
 
 
 def test_user_list():
@@ -23,5 +24,6 @@ def test_current_user():
 
 
 def test_update_user():
-    assert reverse("api:update_user", kwargs={"username": "john"}) == "/api/users/john/"
+    assert reverse("api:update_user", kwargs={
+                   "username": "john"}) == "/api/users/john/"
     assert resolve("/api/users/john/").view_name == "api:retrieve_user"

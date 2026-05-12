@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
     from django.http import HttpRequest
 
-    from bet_app.users.models import User
+    from bet_app.apps.users.models import User
 
 
 class AccountAdapter(DefaultAccountAdapter):

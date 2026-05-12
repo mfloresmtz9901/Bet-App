@@ -4,8 +4,8 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 
-from bet_app.users.models import User
-from bet_app.users.tests.factories import UserFactory
+from bet_app.apps.users.models import User
+from bet_app.apps.users.tests.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
 
