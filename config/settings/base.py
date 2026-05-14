@@ -83,8 +83,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "bet_app.apps.users",
-    "bet_app.apps.matches",
     # Your stuff: custom apps go here
+    "bet_app.apps.core_data",
+    "bet_app.apps.matches",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
