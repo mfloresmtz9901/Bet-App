@@ -1,14 +1,18 @@
 # General
 # ------------------------------------------------------------------------------
-USE_DOCKER=yes
-IPYTHONDIR=/app/.ipython
+USE_DOCKER = yes
+IPYTHONDIR = /app/.ipython
 # Redis
 # ------------------------------------------------------------------------------
-REDIS_URL=redis://redis:6379/0
+REDIS_URL = redis: // redis: 6379/0
 
 # Celery
 # ------------------------------------------------------------------------------
 
 # Flower
-CELERY_FLOWER_USER=ilCVQeFRCxSXymBIdpBPGJsTNqZwhBwR
-CELERY_FLOWER_PASSWORD=XUeNLXpFi969bVOocQmsEm2qUll1AyAc5oGr3jLGWnukZXzn7Zl8md2gGJ5R2ZGL
+CELERY_FLOWER_USER = ilCVQeFRCxSXymBIdpBPGJsTNqZwhBwR
+CELERY_FLOWER_PASSWORD = XUeNLXpFi969bVOocQmsEm2qUll1AyAc5oGr3jLGWnukZXzn7Zl8md2gGJ5R2ZGL
+
+# Secrets
+# ----------------------------------------------------------------------------
+JWT_AUTH_COOKIE_NAME = bet_access_token

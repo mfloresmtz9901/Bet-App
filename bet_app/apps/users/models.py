@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
+from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -11,16 +11,21 @@ class User(AbstractUser):
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
 
-    # First and last name do not cover name patterns around the globe
-    name = CharField(_("Name of User"), blank=True, max_length=255)
-    first_name = None  # type: ignore[assignment]
-    last_name = None  # type: ignore[assignment]
+    email = models.EmailField(unique=True, max_length=255)
 
-    def get_absolute_url(self) -> str:
-        """Get URL for user's detail view.
+    USER_TYPE_CHOICES = [
+        ("FR", _("Free")),
+        ("PR", _("Premium")),
+        ("AD", _("Admin")),
+    ]
+    user_type = models.CharField(
+        max_length=2, null=True, blank=True, verbose_name=_("User Type"), choices=USER_TYPE_CHOICES
+    )
 
-        Returns:
-            str: URL for user detail.
+    @property
+    def is_platform_admin(self):
+        """Helper property to identify platform admins."""
+        return self.user_type == "AD"
 
-        """
-        return reverse("users:detail", kwargs={"username": self.username})
+    def __str__(self):
+        return f"{self.email} ({'Admin' if self.user_type == 'AD' else 'User'})"

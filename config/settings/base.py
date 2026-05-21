@@ -327,3 +327,6 @@ SOCIALACCOUNT_FORMS = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# Token settings
+JWT_AUTH_COOKIE_NAME = env.str("JWT_AUTH_COOKIE_NAME")
