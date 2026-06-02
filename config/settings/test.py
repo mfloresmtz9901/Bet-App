@@ -36,3 +36,4 @@ TEMPLATES[0]["OPTIONS"]["debug"] = True  # type: ignore[index]
 MEDIA_URL = "http://media.testserver/"
 # Your stuff...
 # ------------------------------------------------------------------------------
+JWT_AUTH_COOKIE_NAME = env.str("JWT_AUTH_COOKIE_NAME", default="bet_access_token")

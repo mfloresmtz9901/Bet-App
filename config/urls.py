@@ -7,7 +7,17 @@ from django.urls import path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
-from .api import api
+from ninja import NinjaAPI
+from bet_app.apps.users.api.views import router as users_router
+
+
+api = NinjaAPI(
+    title="BET API",
+    version="1.0.0",
+    docs_url="/docs"
+)
+
+api.add_router("/auth/", users_router, tags=['auth'])
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
