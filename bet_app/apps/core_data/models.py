@@ -1,73 +1,69 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Country(models.Model):
-
-    # Relational data
-    code = models.CharField(max_length=6, unique=True, null=False)
-    name = models.CharField(max_length=100, unique=True, null=False)
-
-    # Extra Data
+    code = models.CharField(max_length=6, unique=True)
+    name = models.CharField(max_length=100, unique=True)
     flag = models.URLField(max_length=200, null=True, blank=True)
-
-    # Logical status
     deactivate = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
 
-class League(models.Model):
+class Competition(models.Model):
+    class Format(models.TextChoices):
+        LEAGUE = "League", "League"
+        CUP = "Cup", "Cup"
+        MIXED = "Mixed", "Mixed"
 
-    # Relational data
-    remote_id = models.IntegerField(unique=True, null=False)
+    remote_id = models.IntegerField(unique=True)
     country = models.ForeignKey(
-        Country, on_delete=models.CASCADE, related_name='leagues')
-
-    # Extra Data
-    name = models.CharField(max_length=100, unique=True, null=False)
-    type = models.CharField(max_length=50, null=True, blank=True)
+        Country,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="competitions",
+    )
+    name = models.CharField(max_length=100)
+    type = models.CharField(
+        max_length=50,
+        choices=Format.choices,
+        null=True,
+        blank=True,
+    )
     logo = models.URLField(max_length=200, null=True, blank=True)
-
-    # API-Football Status
     active = models.BooleanField(default=False)
-
-    # Logical status
     deactivate = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
 
-class Seasons(models.Model):
-
-    # Relational data
-    league = models.ForeignKey(
-        League, on_delete=models.CASCADE, related_name='seasons')
-    year = models.IntegerField(null=False)
+class CompetitionSeason(models.Model):
+    competition = models.ForeignKey(
+        Competition,
+        on_delete=models.CASCADE,
+        related_name="seasons",
+    )
+    year = models.IntegerField()
     current = models.BooleanField(default=False)
-
-    # remote_id = models.IntegerField(unique=True, null=False)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['league', 'year'], name='unique_league_season')
+                fields=["competition", "year"],
+                name="unique_competition_season",
+            ),
         ]
 
     def __str__(self):
-        return str(self.year)
+        return f"{self.competition.name} - {self.year}"
 
 
 class Venue(models.Model):
-
-    # Relational data
-    remote_id = models.IntegerField(unique=True, null=False)
-
-    # Extra Data
-    name = models.CharField(max_length=150, unique=True, null=False)
+    remote_id = models.IntegerField(unique=True)
+    name = models.CharField(max_length=150)
     city = models.CharField(max_length=100, null=True, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
     surface = models.CharField(max_length=50, null=True, blank=True)
@@ -77,34 +73,59 @@ class Venue(models.Model):
         return f"{self.name} - {self.city}"
 
 
-class Teams(models.Model):
+class Team(models.Model):
+    class TeamType(models.TextChoices):
+        UNKNOWN = "unknown", "Unknown"
+        CLUB = "club", "Club"
+        NATIONAL = "national", "National"
 
-    # Relational data
-    remote_id = models.IntegerField(unique=True, null=False)
-    code = models.CharField(max_length=3, unique=True, null=False)
-
-    # Extra Data
-    name = models.CharField(max_length=100, unique=True, null=False)
+    remote_id = models.IntegerField(unique=True)
+    code = models.CharField(max_length=3, blank=True, default="")
+    name = models.CharField(max_length=100)
+    team_type = models.CharField(
+        max_length=10,
+        choices=TeamType.choices,
+        default=TeamType.UNKNOWN,
+    )
     logo = models.URLField(max_length=200, null=True, blank=True)
     country = models.ForeignKey(
-        Country, on_delete=models.SET_NULL, null=True, related_name='teams')
+        Country,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="teams",
+    )
     founded = models.IntegerField(null=True, blank=True)
     venue = models.ForeignKey(
-        Venue, on_delete=models.SET_NULL, null=True, related_name='home_teams')
-
-
-class LeagueParticipation(models.Model):
-
-    # Relational data
-    league = models.ForeignKey(
-        League, on_delete=models.CASCADE, related_name='participations')
-    season = models.ForeignKey(
-        Seasons, on_delete=models.CASCADE, related_name='participations')
-    team = models.ForeignKey(
-        Teams, on_delete=models.CASCADE, related_name='participations')
-
-    # Status
-    active = models.BooleanField(default=False)
+        Venue,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="home_teams",
+    )
 
     def __str__(self):
-        return f"{self.league.name} - {self.season.year}"
+        return self.name
+
+
+class Participation(models.Model):
+    season = models.ForeignKey(
+        CompetitionSeason,
+        on_delete=models.CASCADE,
+        related_name="participations",
+    )
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="participations",
+    )
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["season", "team"],
+                name="unique_team_season_participation",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.team.name} - {self.season}"
