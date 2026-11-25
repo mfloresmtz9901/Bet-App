@@ -5,13 +5,13 @@ from django.shortcuts import get_object_or_404
 from ninja import Router
 from ninja.security import SessionAuth
 
+from bet_app.apps.users.api.auth import create_access_token
+from bet_app.apps.users.api.auth import jwt_auth
 from bet_app.apps.users.api.schema import LoginSchema
 from bet_app.apps.users.api.schema import RegisterSchema
 from bet_app.apps.users.api.schema import UpdateUserSchema
-from bet_app.apps.users.api.schema import UserSchema
 from bet_app.apps.users.api.schema import UserOutSchema
-from bet_app.apps.users.api.auth import create_access_token
-from bet_app.apps.users.api.auth import jwt_auth
+from bet_app.apps.users.api.schema import UserSchema
 from bet_app.apps.users.models import User
 from bet_app.apps.users.schemas import PasswordChangeInSchema
 
@@ -29,7 +29,7 @@ def set_auth_cookie(response: JsonResponse, token: str):
         httponly=True,
         secure=False,  # Toggle to True in staging/production (Requires HTTPS)
         samesite="Lax",
-        max_age=3600  # 1 Hour
+        max_age=3600,  # 1 Hour
     )
 
 
@@ -41,7 +41,11 @@ def register_user(request, data: RegisterSchema):
         return 400, {"message": "A user with this username already exists."}
 
     user = User.objects.create_user(
-        email=data.email, password=data.password, name=data.name, username=data.username)
+        email=data.email,
+        password=data.password,
+        name=data.name,
+        username=data.username,
+    )
     token = create_access_token(user.id)
     response = JsonResponse(UserOutSchema.from_orm(user).dict(), status=201)
     set_auth_cookie(response, token)

@@ -19,7 +19,10 @@ class User(AbstractUser):
         ("AD", _("Admin")),
     ]
     user_type = models.CharField(
-        max_length=2, null=True, blank=True, verbose_name=_("User Type"), choices=USER_TYPE_CHOICES
+        max_length=2,
+        blank=True,
+        verbose_name=_("User Type"),
+        choices=USER_TYPE_CHOICES,
     )
 
     @property

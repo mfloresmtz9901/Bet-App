@@ -1,16 +1,18 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC
+from datetime import datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
-from jose import JWTError, jwt
+from jose import JWTError
+from jose import jwt
 from ninja.security import APIKeyCookie
 
 User = get_user_model()
 
 
 def create_access_token(user_id: int) -> str:
-    expire = datetime.now(tz=timezone.utc) + timedelta(hours=1)
+    expire = datetime.now(tz=UTC) + timedelta(hours=1)
     payload = {"user_id": user_id, "exp": int(expire.timestamp())}
     return jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
 

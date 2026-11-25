@@ -1,7 +1,9 @@
 from django.urls import reverse
-from ninja import ModelSchema, Schema
-from pydantic import BaseModel, EmailStr, Field, model_validator
-from typing import Optional
+from ninja import ModelSchema
+from ninja import Schema
+from pydantic import EmailStr
+from pydantic import Field
+from pydantic import model_validator
 
 from bet_app.apps.users.models import User
 
@@ -25,7 +27,8 @@ class PasswordChangeSchema(Schema):
     @model_validator(mode="after")
     def verify_password_match(self):
         if self.new_password != self.confirm_new_password:
-            raise ValueError("The two new passwords do not match.")
+            msg = "The two new passwords do not match."
+            raise ValueError(msg)
         return self
 
 
