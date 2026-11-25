@@ -1,4 +1,6 @@
-from datetime import datetime, timezone
+import secrets
+from datetime import UTC
+from datetime import datetime
 from http import HTTPStatus
 
 import pytest
@@ -126,11 +128,12 @@ def test_update_user(client: Client):
 
 
 def test_login_success(client: Client):
-    user = UserFactory.create(password="testpass123!")
+    password = secrets.token_urlsafe()
+    user = UserFactory.create(password=password)
 
     response = client.post(
         reverse("api:login"),
-        data=f'{{"email": "{user.email}", "password": "testpass123!"}}',
+        data=f'{{"email": "{user.email}", "password": "{password}"}}',
         content_type="application/json",
     )
 
@@ -140,7 +143,8 @@ def test_login_success(client: Client):
 
 
 def test_login_invalid_password(client: Client):
-    user = UserFactory.create(password="testpass123!")
+    password = secrets.token_urlsafe()
+    user = UserFactory.create(password=password)
 
     response = client.post(
         reverse("api:login"),
@@ -180,8 +184,10 @@ def test_retrieve_current_user_with_jwt(client: Client):
 
 def test_retrieve_current_user_with_expired_jwt(client: Client):
     user = UserFactory.create()
-    expired_payload = {"user_id": user.id, "exp": int(
-        datetime(2020, 1, 1, tzinfo=timezone.utc).timestamp())}
+    expired_payload = {
+        "user_id": user.id,
+        "exp": int(datetime(2020, 1, 1, tzinfo=UTC).timestamp()),
+    }
     token = jwt.encode(expired_payload, settings.SECRET_KEY, algorithm="HS256")
     client.cookies[settings.JWT_AUTH_COOKIE_NAME] = token
 
