@@ -4,7 +4,7 @@ from django.db import models
 class Country(models.Model):
     code = models.CharField(max_length=6, unique=True)
     name = models.CharField(max_length=100, unique=True)
-    flag = models.URLField(max_length=200, null=True, blank=True)
+    flag = models.URLField(max_length=200, blank=True)
     deactivate = models.BooleanField(default=False)
 
     def __str__(self):
@@ -29,10 +29,9 @@ class Competition(models.Model):
     type = models.CharField(
         max_length=50,
         choices=Format.choices,
-        null=True,
         blank=True,
     )
-    logo = models.URLField(max_length=200, null=True, blank=True)
+    logo = models.URLField(max_length=200, blank=True)
     active = models.BooleanField(default=False)
     deactivate = models.BooleanField(default=False)
 
@@ -64,9 +63,9 @@ class CompetitionSeason(models.Model):
 class Venue(models.Model):
     remote_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=150)
-    city = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, blank=True)
     capacity = models.IntegerField(null=True, blank=True)
-    surface = models.CharField(max_length=50, null=True, blank=True)
+    surface = models.CharField(max_length=50, blank=True)
     altitude = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -87,7 +86,7 @@ class Team(models.Model):
         choices=TeamType.choices,
         default=TeamType.UNKNOWN,
     )
-    logo = models.URLField(max_length=200, null=True, blank=True)
+    logo = models.URLField(max_length=200, blank=True)
     country = models.ForeignKey(
         Country,
         on_delete=models.SET_NULL,

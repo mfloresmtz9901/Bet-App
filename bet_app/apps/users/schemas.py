@@ -1,5 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field, model_validator
-from typing import Optional
+from pydantic import BaseModel
+from pydantic import EmailStr
+from pydantic import Field
+from pydantic import model_validator
 
 
 class RegisterInSchema(BaseModel):
@@ -8,10 +10,11 @@ class RegisterInSchema(BaseModel):
     password: str = Field(..., min_length=8)
     password_confirm: str = Field(..., min_length=8)
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def check_passwords_match(self):
         if self.password != self.password_confirm:
-            raise ValueError("Passwords do not match")
+            msg = "Passwords do not match"
+            raise ValueError(msg)
         return self
 
 
@@ -28,7 +31,8 @@ class PasswordChangeInSchema(BaseModel):
     @model_validator(mode="after")
     def verify_password_match(self):
         if self.new_password != self.confirm_new_password:
-            raise ValueError("The two new passwords do not match.")
+            msg = "The two new passwords do not match."
+            raise ValueError(msg)
         return self
 
 
