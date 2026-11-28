@@ -48,6 +48,8 @@ class ParticipationTests(TestCase):
 
     def test_shared_team_names_and_codes_are_allowed(self):
         other = Team.objects.create(
-            remote_id=2, name=self.team.name, code=self.team.code,
+            remote_id=2,
+            name=self.team.name,
+            code=self.team.code,
         )
         assert other.pk != self.team.pk
