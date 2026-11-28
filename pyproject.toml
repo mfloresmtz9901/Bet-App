@@ -28,19 +28,19 @@ dependencies = [
   "django-ninja==1.6.0",
   "django-redis==6.0.0",
   "django-storages[s3]==1.14.6",
+  "email-validator>=2.3.0",
   "flower==2.0.1",
   "gunicorn==25.1.0",
   "hiredis==3.3.1",
+  "passlib>=1.7.4",
   "pillow==12.1.1",
   "psycopg[c]==3.3.3",
+  "pydantic>=2.12.5",
+  "python-jose>=3.5.0",
   "python-slugify==8.0.4",
   "redis==7.3.0",
   "uvicorn[standard]==0.42.0",
   "uvicorn-worker==0.4.0",
-  "python-jose>=3.5.0",
-  "passlib>=1.7.4",
-  "pydantic>=2.12.5",
-  "email-validator>=2.3.0",
 ]
 
 [dependency-groups]
@@ -123,6 +123,7 @@ lint.select = [
   "YTT",
 ]
 lint.ignore = [
+  "COM812",
   "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
   "S101",   # Use of assert detected https://docs.astral.sh/ruff/rules/assert/
   "SIM102", # sometimes it's better to nest
